@@ -1,0 +1,23 @@
+/*
+* Global styles
+*/
+
+:root {
+  #apply: .dark;
+  color-scheme: dark;
+}
+
+html,
+body {
+  overflow: hidden;
+  width: ${x.app.width};
+}
+
+// Override font styles chrome injects for extensions
+body {
+  font-size: ${x.textSize};
+}
+
+option {
+  background-color: ${x.color.background};
+}
