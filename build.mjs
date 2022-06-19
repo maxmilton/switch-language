@@ -14,10 +14,17 @@ import path from 'path';
 import { PurgeCSS } from 'purgecss';
 import manifest from './manifest.config.js';
 
+const firefox = process.env.FIREFOX_BUILD;
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 const dir = path.resolve(); // loose alternative to __dirname in node ESM
 const release = manifest.version_name || manifest.version;
+const target = firefox ? ['firefox91'] : ['chrome102']; // Firefox ESR and Chrome stable
+
+if (firefox) {
+  delete manifest.version_name;
+  delete manifest.key;
+}
 
 /**
  * @param {esbuild.OutputFile[]} outputFiles
@@ -168,7 +175,7 @@ await esbuild.build({
   entryPoints: ['src/index.ts'],
   outfile: 'dist/popup.js',
   platform: 'browser',
-  target: ['chrome96'],
+  target,
   define: {
     'process.env.APP_RELEASE': JSON.stringify(release),
     'process.env.NODE_ENV': JSON.stringify(mode),
@@ -196,7 +203,7 @@ await esbuild.build({
   entryPoints: ['src/content.ts'],
   outfile: 'dist/content.js',
   platform: 'browser',
-  target: ['chrome96'],
+  target,
   format: 'esm',
   define: {
     'process.env.APP_RELEASE': JSON.stringify(release),
@@ -217,7 +224,7 @@ await esbuild.build({
   entryPoints: ['src/service-worker.ts'],
   outfile: 'dist/sw.js',
   platform: 'browser',
-  target: ['chrome96'],
+  target,
   format: 'esm',
   define: {
     'process.env.APP_RELEASE': JSON.stringify(release),
@@ -238,7 +245,7 @@ await esbuild.build({
   entryPoints: ['src/trackx.ts'],
   outfile: 'dist/trackx.js',
   platform: 'browser',
-  target: ['chrome96'],
+  target,
   define: {
     'process.env.APP_RELEASE': JSON.stringify(release),
     'process.env.NODE_ENV': JSON.stringify(mode),
