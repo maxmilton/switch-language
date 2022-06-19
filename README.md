@@ -1,6 +1,6 @@
 [![Build status](https://img.shields.io/github/workflow/status/maxmilton/switch-language/ci)](https://github.com/maxmilton/switch-language/actions)
 [![Coverage status](https://img.shields.io/codeclimate/coverage/maxmilton/switch-language)](https://codeclimate.com/github/maxmilton/switch-language)
-[![Chrome Web Store version](https://img.shields.io/chrome-web-store/v/ollcdfepbkpopcfilmheonkfbbnnmkbj.svg)](https://chrome.google.com/webstore/detail/switch-language/ollcdfepbkpopcfilmheonkfbbnnmkbj)
+[![Chrome Web Store version](https://img.shields.io/chrome-web-store/v/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.svg)](https://chrome.google.com/webstore/detail/switch-language/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx)
 [![Licence](https://img.shields.io/github/license/maxmilton/switch-language.svg)](https://github.com/maxmilton/switch-language/blob/master/LICENSE)
 
 # Switch Language ![](./static/icon48.png)
@@ -9,7 +9,7 @@ Switch web page language browser extension. Simple to use and a no-nonsense user
 
 Although there are existing Chrome extensions with similar functionality, they either don't work, use old technology resulting in poor performance, are questionably large, or have no tests.
 
-[![Add to Chrome](https://storage.googleapis.com/chrome-gcs-uploader.appspot.com/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/mPGKYBIR2uCP0ApchDXE.png)](https://chrome.google.com/webstore/detail/switch-language/ollcdfepbkpopcfilmheonkfbbnnmkbj)
+[![Add to Chrome](https://storage.googleapis.com/chrome-gcs-uploader.appspot.com/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/mPGKYBIR2uCP0ApchDXE.png)](https://chrome.google.com/webstore/detail/switch-language/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx)
 
 ### Features
 
