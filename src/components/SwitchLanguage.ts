@@ -1,4 +1,4 @@
-import './Switcher.xcss';
+import './SwitchLanguage.xcss';
 
 import { append, h, S1Node } from 'stage1';
 import locales from '../locales.json';
@@ -9,7 +9,7 @@ export interface UserSettings {
   locale?: string;
 }
 
-type LocaleSwitchComponent = S1Node & HTMLDivElement;
+type SwitchLanguageComponent = S1Node & HTMLDivElement;
 
 type RefNodes = {
   enabled: HTMLInputElement;
@@ -31,8 +31,8 @@ const view = h(`
   </div>
 `);
 
-export function LocaleSwitch(): LocaleSwitchComponent {
-  const root = view as LocaleSwitchComponent;
+export function SwitchLanguage(): SwitchLanguageComponent {
+  const root = view as SwitchLanguageComponent;
   const { enabled, select } = view.collect<RefNodes>(root);
 
   const setActiveLanguage = async () => {

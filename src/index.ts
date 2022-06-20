@@ -2,7 +2,7 @@ import './css/index.xcss';
 
 import { append } from 'stage1';
 import { Footer } from './components/Footer';
-import { LocaleSwitch } from './components/Switcher';
+import { SwitchLanguage } from './components/SwitchLanguage';
 
-append(LocaleSwitch(), document.body);
+append(SwitchLanguage(), document.body);
 append(Footer(), document.body);
