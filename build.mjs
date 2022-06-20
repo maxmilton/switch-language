@@ -163,14 +163,14 @@ await fs.writeFile(
   JSON.stringify(manifest),
 );
 
-// Reader app HTML
+// Popup app HTML
 await fs.writeFile(
   path.join(dir, 'dist/popup.html'),
   makeHTML('popup.js', 'popup.css'),
   'utf8',
 );
 
-// Locale switch app
+// Popup app
 await esbuild.build({
   entryPoints: ['src/index.ts'],
   outfile: 'dist/popup.js',
