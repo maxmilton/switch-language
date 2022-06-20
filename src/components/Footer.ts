@@ -6,7 +6,7 @@ const view = h(`
   <footer class="mv2 muted fss tc">
     © <a href=https://maxmilton.com class="normal muted" target=_blank>Max Milton</a> ・ v${process
     .env
-    .APP_RELEASE!} ・ <a href=https://github.com/maxmilton/locale-switch/issues target=_blank>report bug</a>
+    .APP_RELEASE!} ・ <a href=https://github.com/maxmilton/switch-language/issues target=_blank>report bug</a>
   </footer>
 `);
 
