@@ -2,6 +2,7 @@
 
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
+import locales from '../src/locales.json';
 import {
   mocksSetup, mocksTeardown, setup, sleep, teardown,
 } from './utils';
@@ -44,46 +45,25 @@ test.after.each(() => {
   }
 });
 
-const basicHTML = `
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test</title>
-</head>
-<body>
-  <h1>Test</h1>
-</body>
-</html>
-`;
-let mockHTML = basicHTML;
-
-test.before.each(() => {
-  // @ts-expect-error - mock fn
-  global.chrome.scripting.executeScript = () => Promise.resolve([{ result: mockHTML }]);
-});
-test.after.each(() => {
-  mockHTML = basicHTML;
-});
-
-test('renders entire reader app', async () => {
+test('renders entire popup app', async () => {
   // eslint-disable-next-line global-require
-  require('../dist/reader.js');
+  require('../dist/popup.js');
 
   // TODO: Better assertions
-  assert.is(document.body.innerHTML.length > 500, true);
+  assert.is(document.body.innerHTML.length > 1000, true, 'has content');
   const firstNode = document.body.firstChild as HTMLDivElement;
   assert.instance(firstNode, window.HTMLDivElement);
-  assert.ok(document.body.querySelector('#progress'));
-  assert.ok(document.body.querySelector('#controls'));
-  assert.ok(document.body.querySelector('#play'));
-  assert.ok(document.body.querySelector('#focus'));
-  assert.ok(document.body.querySelector('#word'));
-  assert.ok(document.body.querySelector('footer'));
-  assert.is(document.body.querySelectorAll('button').length, 4);
+  assert.ok(document.body.querySelector('h1'));
+  assert.is(document.body.querySelector('h1')?.textContent, 'Switch Language');
+  assert.ok(document.body.querySelector('input#enabled'));
+  assert.ok(document.body.querySelector('select.select'));
+  assert.is(
+    document.body.querySelectorAll('option').length,
+    Object.keys(locales).length,
+  );
+  assert.ok(document.body.querySelectorAll('option').length > 20);
 
-  // Wait for timers within the app to finish
+  // Wait for timers/Promises within the app to finish
   await sleep(4);
 });
 

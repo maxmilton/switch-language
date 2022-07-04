@@ -19,7 +19,7 @@ test('renders correctly', () => {
   assert.fixture(
     rendered.container.innerHTML,
     `<footer class="mv2 muted fss tc">
-© <a href="https://maxmilton.com" class="normal muted" target="_blank">Max Milton</a> ・ v1.0.0 ・ <a href="https://github.com/maxmilton/reader/issues" target="_blank">report bug</a>
+© <a href="https://maxmilton.com" class="normal muted" target="_blank">Max Milton</a> ・ v1.0.0 ・ <a href="https://github.com/maxmilton/switch-language/issues" target="_blank">report bug</a>
 </footer>`,
   );
 });
@@ -39,7 +39,7 @@ test('contains a link to Github issues', () => {
   const rendered = render(Footer());
   assert.ok(
     rendered.container.querySelector(
-      'a[href="https://github.com/maxmilton/reader/issues"]',
+      'a[href="https://github.com/maxmilton/switch-language/issues"]',
     ),
   );
 });

@@ -112,21 +112,45 @@ const noop = () => {};
 export function mocksSetup(): void {
   // @ts-expect-error - partial mock
   global.chrome = {
+    action: {
+      setBadgeBackgroundColor: noop,
+      setBadgeText: noop,
+    },
+    declarativeNetRequest: {
+      HeaderOperation: {
+        SET: 'set',
+      },
+      RuleActionType: {
+        MODIFY_HEADERS: 'MODIFY_HEADERS',
+      },
+      updateDynamicRules: noop,
+    },
     storage: {
-      sync: {
+      local: {
         get: noop,
         set: noop,
       },
     },
+    // runtime: {
+    //   onInstalled: {
+    //     addListener: noop,
+    //   },
+    //   onStartup: {
+    //     addListener: noop,
+    //   },
+    // },
     scripting: {
       executeScript() {
         return Promise.resolve([{ result: undefined }]);
       },
+      registerContentScripts: noop,
+      unregisterContentScripts: noop,
     },
     tabs: {
       query() {
         return Promise.resolve([{ id: 471 }]);
       },
+      reload: noop,
     },
   } as typeof global.chrome;
 
