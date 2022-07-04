@@ -55,3 +55,9 @@
 //   console.log('@@@@ CONTENT navigator.language', window.navigator.language);
 //   console.log('@@@@ CONTENT navigator.languages', window.navigator.languages);
 // }
+
+// TODO: Also override the locale (for Intl API etc.)
+//  ↳ https://chromedevtools.github.io/devtools-protocol/tot/Emulation/#method-setLocaleOverride
+//  ↳ Might need to be in a seperate content script which has chrome extension API access
+
+export {};
