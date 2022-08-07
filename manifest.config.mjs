@@ -1,15 +1,15 @@
-/* eslint-disable @typescript-eslint/no-var-requires, import/no-extraneous-dependencies */
+/* eslint-disable import/no-extraneous-dependencies */
 
 // https://developer.chrome.com/docs/extensions/mv3/manifest/
 // https://developer.chrome.com/docs/extensions/mv2/manifest/
 // https://developer.chrome.com/docs/extensions/reference/
 // https://developer.chrome.com/docs/extensions/mv3/devguide/
 
-const { gitRef } = require('git-ref');
-const pkg = require('./package.json');
+import { gitRef } from 'git-ref';
+import pkg from './package.json' assert { type: 'json' };
 
 /** @type {chrome.runtime.Manifest} */
-module.exports = {
+export default {
   manifest_version: 3,
   name: 'Switch Language',
   description: 'Switch web page language.',

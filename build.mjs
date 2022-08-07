@@ -12,7 +12,7 @@ import { xcss } from 'esbuild-plugin-ekscss';
 import fs from 'fs/promises';
 import path from 'path';
 import { PurgeCSS } from 'purgecss';
-import manifest from './manifest.config.js';
+import manifest from './manifest.config.mjs';
 
 const firefox = process.env.FIREFOX_BUILD;
 const mode = process.env.NODE_ENV;
@@ -176,6 +176,7 @@ await esbuild.build({
   outfile: 'dist/popup.js',
   platform: 'browser',
   target,
+  format: 'esm',
   define: {
     'process.env.APP_RELEASE': JSON.stringify(release),
     'process.env.NODE_ENV': JSON.stringify(mode),
@@ -190,6 +191,7 @@ await esbuild.build({
   ],
   bundle: true,
   minify: !dev,
+  mangleProps: /_refs|collect/,
   sourcemap: dev,
   watch: dev,
   write: dev,
