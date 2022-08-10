@@ -1,6 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies, no-console, no-param-reassign */
+/* eslint-disable import/no-extraneous-dependencies, no-console, no-param-reassign, no-bitwise */
 
-import * as csso from 'csso';
+import * as pcss from '@parcel/css';
 import esbuild from 'esbuild';
 import {
   decodeUTF8,
@@ -19,7 +19,7 @@ const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 const dir = path.resolve(); // loose alternative to __dirname in node ESM
 const release = manifest.version_name || manifest.version;
-const target = firefox ? ['firefox91'] : ['chrome102']; // Firefox ESR and Chrome stable
+const target = firefox ? ['firefox102'] : ['chrome104']; // Firefox ESR and Chrome stable
 
 if (firefox) {
   delete manifest.version_name;
@@ -118,12 +118,24 @@ const minifyCSS = {
             ':disabled',
           ],
         });
-        const { css } = csso.minify(purged[0].css, {
-          restructure: true,
-          forceMediaMerge: true, // unsafe!
+        const minified = pcss.transform({
+          filename: outCSS.file.path,
+          code: Buffer.from(purged[0].css),
+          minify: true,
+          sourceMap: dev,
+          targets: {
+            chrome: 104 << 16,
+            firefox: 102 << 16,
+          },
         });
 
-        result.outputFiles[outCSS.index].contents = encodeUTF8(css);
+        for (const warning of minified.warnings) {
+          console.error('CSS WARNING:', warning.message);
+        }
+
+        result.outputFiles[outCSS.index].contents = encodeUTF8(
+          minified.code.toString(),
+        );
       }
     });
   },
