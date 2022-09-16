@@ -1,6 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies, no-console, no-param-reassign, no-bitwise */
 
-import * as pcss from '@parcel/css';
 import esbuild from 'esbuild';
 import {
   decodeUTF8,
@@ -10,6 +9,7 @@ import {
 } from 'esbuild-minify-templates';
 import { xcss } from 'esbuild-plugin-ekscss';
 import fs from 'fs/promises';
+import * as lightningcss from 'lightningcss';
 import path from 'path';
 import { PurgeCSS } from 'purgecss';
 import manifest from './manifest.config.mjs';
@@ -73,10 +73,12 @@ const minifyCSS = {
       if (result.outputFiles) {
         const outJS = findOutputFile(result.outputFiles, '.js');
         const outCSS = findOutputFile(result.outputFiles, '.css');
+        const outCSSMap = findOutputFile(result.outputFiles, '.css.map');
 
         const purged = await new PurgeCSS().purge({
           content: [{ extension: '.js', raw: decodeUTF8(outJS.file.contents) }],
           css: [{ raw: decodeUTF8(outCSS.file.contents) }],
+          sourceMap: outCSSMap.index !== -1,
           safelist: ['html', 'body'],
           blocklist: [
             // XXX: Remember to remove if actually using the element tag
@@ -118,7 +120,7 @@ const minifyCSS = {
             ':disabled',
           ],
         });
-        const minified = pcss.transform({
+        const minified = lightningcss.transform({
           filename: outCSS.file.path,
           code: Buffer.from(purged[0].css),
           minify: true,
@@ -133,6 +135,11 @@ const minifyCSS = {
           console.error('CSS WARNING:', warning.message);
         }
 
+        if (outCSSMap.index !== -1 && minified.map) {
+          result.outputFiles[outCSSMap.index].contents = encodeUTF8(
+            minified.map.toString(),
+          );
+        }
         result.outputFiles[outCSS.index].contents = encodeUTF8(
           minified.code.toString(),
         );
