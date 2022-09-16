@@ -124,7 +124,7 @@ const minifyCSS = {
           filename: outCSS.file.path,
           code: Buffer.from(purged[0].css),
           minify: true,
-          sourceMap: dev,
+          sourceMap: outCSSMap.index !== -1,
           targets: {
             chrome: 104 << 16,
             firefox: 102 << 16,
