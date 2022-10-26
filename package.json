@@ -21,7 +21,7 @@
     "zip-ff": "export FIREFOX_BUILD=1 && pnpm run zip && mv chrome-extension.zip firefox-extension.zip"
   },
   "dependencies": {
-    "@ekscss/framework": "0.0.41",
+    "@ekscss/framework": "0.0.42",
     "stage1": "0.4.1",
     "trackx": "0.5.0"
   },
