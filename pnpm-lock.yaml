@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@ekscss/framework': 0.0.41
   '@maxmilton/stylelint-config': 0.0.10
-  '@types/chrome': 0.0.197
+  '@types/chrome': 0.0.199
   '@types/jsdom': 20.0.0
   '@types/node': 18.8.3
   '@typescript-eslint/eslint-plugin': 5.40.0
@@ -43,7 +43,7 @@ dependencies:
 
 devDependencies:
   '@maxmilton/stylelint-config': 0.0.10_stylelint@14.13.0
-  '@types/chrome': 0.0.197
+  '@types/chrome': 0.0.199
   '@types/jsdom': 20.0.0
   '@types/node': 18.8.3
   '@typescript-eslint/eslint-plugin': 5.40.0_25sstg4uu2sk4pm7xcyzuov7xq
@@ -313,8 +313,8 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
-  /@types/chrome/0.0.197:
-    resolution: {integrity: sha512-m1NfS5bOjaypyqQfaX6CxmJodZVcvj5+Mt/K94EBHkflYjPNmXHAzbxfifdLMa0YM3PDyOxohoTS5ug/e6p5jA==}
+  /@types/chrome/0.0.199:
+    resolution: {integrity: sha512-BDuKiS8iZONsvTFSjbJlmHAwkYpkcWtG7Z7ESDJ/vf0QlcaXX6q4Xzi7euDNjIS4ZMA4kSODPGBHGVdC2lAHzw==}
     dependencies:
       '@types/filesystem': 0.0.32
       '@types/har-format': 1.2.9
