@@ -21,7 +21,7 @@
     "zip-ff": "export FIREFOX_BUILD=1 && pnpm run zip && mv chrome-extension.zip firefox-extension.zip"
   },
   "dependencies": {
-    "@ekscss/framework": "0.0.42",
+    "@ekscss/framework": "0.0.43",
     "stage1": "0.4.1",
     "trackx": "0.6.0"
   },
@@ -29,7 +29,7 @@
     "@maxmilton/stylelint-config": "0.0.10",
     "@types/chrome": "0.0.200",
     "@types/jsdom": "20.0.0",
-    "@types/node": "18.11.7",
+    "@types/node": "18.11.8",
     "@typescript-eslint/eslint-plugin": "5.41.0",
     "@typescript-eslint/parser": "5.41.0",
     "c8": "7.12.0",
@@ -43,7 +43,7 @@
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-unicorn": "44.0.2",
     "git-ref": "0.3.1",
-    "jsdom": "20.0.1",
+    "jsdom": "20.0.2",
     "kleur": "4.1.5",
     "lightningcss": "1.16.0",
     "pirates": "4.0.5",
