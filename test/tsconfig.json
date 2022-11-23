@@ -4,5 +4,5 @@
     "rootDir": ".."
   },
   "include": ["../**/*", "../**/.*.cjs", "../**/*.mjs"],
-  "exclude": ["../**/dist", "../**/node_modules", "../coverage"]
+  "exclude": ["../**/*.bak", "../**/dist", "../**/node_modules", "../coverage"]
 }

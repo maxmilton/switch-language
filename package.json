@@ -78,9 +78,11 @@
     "ignoreFiles": [
       "**/dist/**",
       "**/node_modules/**",
-      "**.bak"
+      "**/*.bak/**",
+      "**/*.bak"
     ],
     "rules": {
+      "import-notation": null,
       "function-no-unknown": null
     }
   }
