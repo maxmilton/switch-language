@@ -46,8 +46,6 @@ export function SwitchLanguage(): SwitchLanguageComponent {
       locale,
     });
 
-    // @ts-expect-error - missing from @types/chrome, added Chrome v96
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     await chrome.scripting.unregisterContentScripts();
 
     if (enable) {
@@ -71,8 +69,6 @@ export function SwitchLanguage(): SwitchLanguageComponent {
         ],
       });
 
-      // @ts-expect-error - missing from @types/chrome, added Chrome v96
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       await chrome.scripting.registerContentScripts([
         {
           allFrames: true,

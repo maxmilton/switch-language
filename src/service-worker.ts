@@ -13,13 +13,9 @@ function handleAppLoad() {
 
       // When the extension is updated the content script is unregistered so we
       // need to re-register it
-      // @ts-expect-error - missing from @types/chrome, added Chrome v96
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      chrome.scripting.getRegisteredContentScripts((scripts: any[]) => {
+      void chrome.scripting.getRegisteredContentScripts({}, (scripts) => {
         if (scripts.length === 0) {
-          // @ts-expect-error - missing from @types/chrome, added Chrome v96
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-          chrome.scripting.registerContentScripts([
+          void chrome.scripting.registerContentScripts([
             {
               allFrames: true,
               id: 'c',

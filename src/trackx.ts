@@ -1,5 +1,5 @@
 /**
- * Track JS exceptions with the trackx client.
+ * Track JavaScript exceptions with the trackx client.
  *
  * @fileoverview In Chrome extensions v3 running remote code is not allowed so
  * trackx via CDN would not work + loading local code is obviously much faster.
