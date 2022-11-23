@@ -75,7 +75,7 @@ for (const filename of [
 test('renders reader app', async (context) => {
   const { page } = await renderPage(
     context,
-    'chrome-extension://fhemonmbahmafphlmegeiplebakacbll/popup.html',
+    `chrome-extension://${context.extensionId}/popup.html`,
   );
   // TODO: Better and more assertions
   // eslint-disable-next-line unicorn/no-await-expression-member
