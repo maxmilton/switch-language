@@ -68,6 +68,10 @@ for (const filename of [
   });
 }
 
+// TODO: Run it against a real target page
+//  ↳ But keep in mind it's currently not possible to test an action button
+//    popup so this may be impossible without hacks
+
 test('renders reader app', async (context) => {
   const { page } = await renderPage(
     context,
@@ -84,10 +88,6 @@ test('renders reader app', async (context) => {
   assert.is((await page.$$('option')).length, 22);
   await sleep(200);
   assert.is(context.unhandledErrors.length, 0, 'zero unhandled errors');
-  // FIXME: Run it against a real target page
-  //  ↳ But keep in mind it's currently not possible to test an action button
-  //    popup so this may be impossible without hacks
-  // assert.is(context.consoleMessages.length, 0, 'zero console messages');
   assert.is(context.consoleMessages.length, 0, 'zero console messages');
 });
 
