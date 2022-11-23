@@ -51,16 +51,15 @@ test.after.each(async (context) => {
 });
 
 for (const filename of [
+  'content.js',
   'icon16.png',
   'icon48.png',
   'icon128.png',
-  'literata-ext.woff2',
-  'literata-italic.woff2',
-  'literata.woff2',
   'manifest.json',
-  'reader.css',
-  'reader.html',
-  'reader.js',
+  'popup.css',
+  'popup.html',
+  'popup.js',
+  'sw.js',
   'trackx.js',
 ]) {
   fileTest(`dist/${filename} exists`, () => {
@@ -72,30 +71,24 @@ for (const filename of [
 test('renders reader app', async (context) => {
   const { page } = await renderPage(
     context,
-    'chrome-extension://ollcdfepbkpopcfilmheonkfbbnnmkbj/reader.html',
+    'chrome-extension://fhemonmbahmafphlmegeiplebakacbll/popup.html',
   );
   // TODO: Better and more assertions
   // eslint-disable-next-line unicorn/no-await-expression-member
-  assert.ok((await page.innerHTML('body')).length > 400);
-  assert.ok(await page.$('#progress'));
-  assert.ok(await page.$('#controls'));
-  assert.ok(await page.$('#play'));
-  assert.ok(await page.$('#focus'));
-  assert.ok(await page.$('#word'));
+  assert.ok((await page.innerHTML('body')).length > 1500);
+  assert.ok(await page.$('h1'));
+  assert.ok(await page.$('#enabled'));
+  assert.ok(await page.$('select'));
   assert.ok(await page.$('footer'));
   // eslint-disable-next-line unicorn/no-await-expression-member
-  assert.is((await page.$$('button')).length, 4);
+  assert.is((await page.$$('option')).length, 22);
   await sleep(200);
   assert.is(context.unhandledErrors.length, 0, 'zero unhandled errors');
   // FIXME: Run it against a real target page
   //  ↳ But keep in mind it's currently not possible to test an action button
   //    popup so this may be impossible without hacks
   // assert.is(context.consoleMessages.length, 0, 'zero console messages');
-  assert.is(context.consoleMessages.length, 1, 'zero console messages');
-  assert.is(
-    context.consoleMessages[0].text(),
-    'Error: Cannot access contents of the page. Extension manifest must request permission to access the respective host.',
-  );
+  assert.is(context.consoleMessages.length, 0, 'zero console messages');
 });
 
 fileTest.run();
