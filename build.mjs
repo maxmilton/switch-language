@@ -54,12 +54,16 @@ const analyzeMeta = {
  * @param {string} cssPath
  */
 function makeHTML(jsPath, cssPath) {
-  return `<!doctype html>
-<meta charset=utf-8>
-<meta name=google value=notranslate>
-<link href=${cssPath} rel=stylesheet>
-<script src=trackx.js defer></script>
-<script src=${jsPath} defer></script>`;
+  return `
+    <!doctype html>
+    <meta charset=utf-8>
+    <meta name=google value=notranslate>
+    <link href=${cssPath} rel=stylesheet>
+    <script src=trackx.js defer></script>
+    <script src=${jsPath} defer></script>
+  `
+    .trim()
+    .replace(/\n\s+/g, '\n'); // remove leading whitespace
 }
 
 /** @type {esbuild.Plugin} */
@@ -190,7 +194,8 @@ await fs.writeFile(
 );
 
 // Popup app
-await esbuild.build({
+/** @type {esbuild.BuildOptions} */
+const esbuildConfig1 = {
   entryPoints: ['src/index.ts'],
   outfile: 'dist/popup.js',
   platform: 'browser',
@@ -212,15 +217,15 @@ await esbuild.build({
   minify: !dev,
   mangleProps: /_refs|collect/,
   sourcemap: dev,
-  watch: dev,
   write: dev,
   metafile: !dev && process.stdout.isTTY,
   logLevel: 'debug',
   legalComments: 'none',
-});
+};
 
 // Content script
-await esbuild.build({
+/** @type {esbuild.BuildOptions} */
+const esbuildConfig2 = {
   entryPoints: ['src/content.ts'],
   outfile: 'dist/content.js',
   platform: 'browser',
@@ -234,14 +239,14 @@ await esbuild.build({
   bundle: true,
   minify: !dev,
   sourcemap: dev,
-  watch: dev,
   write: dev,
   metafile: !dev && process.stdout.isTTY,
   logLevel: 'debug',
-});
+};
 
 // Service worker
-await esbuild.build({
+/** @type {esbuild.BuildOptions} */
+const esbuildConfig3 = {
   entryPoints: ['src/service-worker.ts'],
   outfile: 'dist/sw.js',
   platform: 'browser',
@@ -255,14 +260,14 @@ await esbuild.build({
   bundle: true,
   minify: !dev,
   sourcemap: dev,
-  watch: dev,
   write: dev,
   metafile: !dev && process.stdout.isTTY,
   logLevel: 'debug',
-});
+};
 
 // Error tracking
-await esbuild.build({
+/** @type {esbuild.BuildOptions} */
+const esbuildConfig4 = {
   entryPoints: ['src/trackx.ts'],
   outfile: 'dist/trackx.js',
   platform: 'browser',
@@ -275,8 +280,25 @@ await esbuild.build({
   bundle: true,
   minify: !dev,
   sourcemap: dev,
-  watch: dev,
   write: dev,
   metafile: !dev && process.stdout.isTTY,
   logLevel: 'debug',
-});
+};
+
+if (dev) {
+  const context1 = await esbuild.context(esbuildConfig1);
+  const context2 = await esbuild.context(esbuildConfig2);
+  const context3 = await esbuild.context(esbuildConfig3);
+  const context4 = await esbuild.context(esbuildConfig4);
+  await Promise.all([
+    context1.watch(),
+    context2.watch(),
+    context3.watch(),
+    context4.watch(),
+  ]);
+} else {
+  await esbuild.build(esbuildConfig1);
+  await esbuild.build(esbuildConfig2);
+  await esbuild.build(esbuildConfig3);
+  await esbuild.build(esbuildConfig4);
+}
