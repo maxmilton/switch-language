@@ -16,8 +16,8 @@ devDependencies:
     specifier: 0.0.12
     version: 0.0.12(postcss@8.4.21)(stylelint@15.5.0)
   '@types/chrome':
-    specifier: 0.0.224
-    version: 0.0.224
+    specifier: 0.0.232
+    version: 0.0.232
   '@types/jsdom':
     specifier: 21.1.0
     version: 21.1.0
@@ -577,8 +577,8 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
-  /@types/chrome@0.0.224:
-    resolution: {integrity: sha512-YkL7q3KDV7OAKgVCBNIfH73rnjNMbIzAYHzTa2DKhSK/2z0Wf/n8yJnK/UoW+lvuYJJR4LtAkG3YvsIZTy7BOA==}
+  /@types/chrome@0.0.232:
+    resolution: {integrity: sha512-IfEhAewLgCDJZ70gnNJ2cbl4L5+9WvR0FL5wl3MGHguSbeQbThN2BNagFq5PddNFMVHW7JKf8TBu7tyWixOeyQ==}
     dependencies:
       '@types/filesystem': 0.0.32
       '@types/har-format': 1.2.10

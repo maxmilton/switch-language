@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@maxmilton/stylelint-config": "0.0.12",
-    "@types/chrome": "0.0.224",
+    "@types/chrome": "0.0.232",
     "@types/jsdom": "21.1.0",
     "@types/node": "18.15.3",
     "@typescript-eslint/eslint-plugin": "5.55.0",
