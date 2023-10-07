@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@ekscss/framework':
     specifier: 0.0.43
@@ -14,7 +18,7 @@ dependencies:
 devDependencies:
   '@maxmilton/stylelint-config':
     specifier: 0.0.12
-    version: 0.0.12(postcss@8.4.22)(stylelint@15.5.0)
+    version: 0.0.12(postcss@8.4.31)(stylelint@15.5.0)
   '@types/chrome':
     specifier: 0.0.232
     version: 0.0.232
@@ -187,7 +191,7 @@ packages:
       '@ekscss/plugin-import': 0.0.9(ekscss@0.0.13)
       '@ekscss/plugin-prefix': 0.0.8(ekscss@0.0.13)
       color: 4.2.3
-      cssremedy: github.com/jensimmons/cssremedy/af14bf3
+      cssremedy: git@github.com+jensimmons/cssremedy/af14bf3
       dset: 3.1.2
       ekscss: 0.0.13
       stylis: 4.1.3
@@ -532,12 +536,12 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
-  /@maxmilton/stylelint-config@0.0.12(postcss@8.4.22)(stylelint@15.5.0):
+  /@maxmilton/stylelint-config@0.0.12(postcss@8.4.31)(stylelint@15.5.0):
     resolution: {integrity: sha512-XYFRy7rP/+oDWdS70bhMZvx3f4S5oD62hH8GC9icWQpUtDUzGtuwUl+NVie1h7H7uTe25DAbsYwfIgCiBYp6Iw==}
     peerDependencies:
       stylelint: ^15.0.0
     dependencies:
-      postcss-ekscss: 0.0.6(postcss@8.4.22)
+      postcss-ekscss: 0.0.6(postcss@8.4.31)
       stylelint: 15.5.0
       stylelint-order: 6.0.3(stylelint@15.5.0)
     transitivePeerDependencies:
@@ -3103,7 +3107,7 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /postcss-ekscss@0.0.6(postcss@8.4.22):
+  /postcss-ekscss@0.0.6(postcss@8.4.31):
     resolution: {integrity: sha512-SJojjYn7pZsAfptKwat4g3wdlwAAaHsZ4yuegQSIM/mXcu7mgK7Qb26ChmY6exSBdJLU6Ylbd8AoWM2iEFOXYw==}
     peerDependencies:
       postcss: ^8.0.0
@@ -3111,7 +3115,7 @@ packages:
       postcss:
         optional: true
     dependencies:
-      postcss: 8.4.22
+      postcss: 8.4.31
     dev: true
 
   /postcss-media-query-parser@0.2.3:
@@ -3122,13 +3126,13 @@ packages:
     resolution: {integrity: sha512-HvExULSwLqHLgUy1rl3ANIqCsvMS0WHss2UOsXhXnQaZ9VCc2oBvIpXrl00IUFT5ZDITME0o6oiXeiHr2SAIfw==}
     dev: true
 
-  /postcss-safe-parser@6.0.0(postcss@8.4.22):
+  /postcss-safe-parser@6.0.0(postcss@8.4.31):
     resolution: {integrity: sha512-FARHN8pwH+WiS2OPCxJI8FuRJpTVnn6ZNFiqAM2aeW2LwTHWWmWgIyKC6cUo0L8aeKiF/14MNvnpls6R2PBeMQ==}
     engines: {node: '>=12.0'}
     peerDependencies:
       postcss: ^8.3.3
     dependencies:
-      postcss: 8.4.22
+      postcss: 8.4.31
     dev: true
 
   /postcss-selector-parser@6.0.11:
@@ -3139,20 +3143,20 @@ packages:
       util-deprecate: 1.0.2
     dev: true
 
-  /postcss-sorting@8.0.2(postcss@8.4.22):
+  /postcss-sorting@8.0.2(postcss@8.4.31):
     resolution: {integrity: sha512-M9dkSrmU00t/jK7rF6BZSZauA5MAaBW4i5EnJXspMwt4iqTh/L9j6fgMnbElEOfyRyfLfVbIHj/R52zHzAPe1Q==}
     peerDependencies:
       postcss: ^8.4.20
     dependencies:
-      postcss: 8.4.22
+      postcss: 8.4.31
     dev: true
 
   /postcss-value-parser@4.2.0:
     resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
     dev: true
 
-  /postcss@8.4.22:
-    resolution: {integrity: sha512-XseknLAfRHzVWjCEtdviapiBtfLdgyzExD50Rg2ePaucEesyh8Wv4VPdW0nbyDa1ydbrAxV19jvMT4+LFmcNUA==}
+  /postcss@8.4.31:
+    resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.6
@@ -3211,7 +3215,7 @@ packages:
     dependencies:
       commander: 9.5.0
       glob: 8.1.0
-      postcss: 8.4.22
+      postcss: 8.4.31
       postcss-selector-parser: 6.0.11
     dev: true
 
@@ -3560,8 +3564,8 @@ packages:
     peerDependencies:
       stylelint: ^14.0.0 || ^15.0.0
     dependencies:
-      postcss: 8.4.22
-      postcss-sorting: 8.0.2(postcss@8.4.22)
+      postcss: 8.4.31
+      postcss-sorting: 8.0.2(postcss@8.4.31)
       stylelint: 15.5.0
     dev: true
 
@@ -3597,10 +3601,10 @@ packages:
       micromatch: 4.0.5
       normalize-path: 3.0.0
       picocolors: 1.0.0
-      postcss: 8.4.22
+      postcss: 8.4.31
       postcss-media-query-parser: 0.2.3
       postcss-resolve-nested-selector: 0.1.1
-      postcss-safe-parser: 6.0.0(postcss@8.4.22)
+      postcss-safe-parser: 6.0.0(postcss@8.4.31)
       postcss-selector-parser: 6.0.11
       postcss-value-parser: 4.2.0
       resolve-from: 5.0.0
@@ -4037,8 +4041,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  github.com/jensimmons/cssremedy/af14bf3:
-    resolution: {tarball: https://codeload.github.com/jensimmons/cssremedy/tar.gz/af14bf3}
+  git@github.com+jensimmons/cssremedy/af14bf3:
+    resolution: {commit: af14bf3, repo: git@github.com:jensimmons/cssremedy.git, type: git}
     name: cssremedy
     version: 0.1.0-beta.2
     dev: false
