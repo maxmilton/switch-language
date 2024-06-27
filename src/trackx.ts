@@ -13,7 +13,7 @@ trackx.setup('https://api.trackx.app/v1/j8a84q08rm5');
 trackx.meta.release = process.env.APP_RELEASE;
 
 if (process.env.NODE_ENV !== 'production') {
-  trackx.meta.NODE_ENV = process.env.NODE_ENV;
+  trackx.meta.NODE_ENV = process.env.NODE_ENV ?? 'NULL';
 }
 
 void fetch('https://api.trackx.app/v1/j8a84q08rm5/ping', {

@@ -4,86 +4,58 @@
   "description": "Switch web page language browser extension",
   "repository": "maxmilton/switch-language",
   "homepage": "https://github.com/maxmilton/switch-language",
-  "author": "Max Milton <max@happycode.ltd>",
+  "author": "Max Milton <max@happyhackers.xyz>",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "pnpm run prebuild && NODE_ENV=production node build.mjs",
-    "dev": "NODE_ENV=development node build.mjs",
-    "lint": "pnpm run lint:css && pnpm run lint:js && pnpm run lint:ts",
-    "lint:css": "stylelint --ignore-path .gitignore '**/*.{css,xcss}'",
-    "lint:js": "eslint --ignore-path .gitignore --ext .ts,.js,.mjs,.cjs .",
-    "lint:ts": "tsc --project test",
+    "build": "NODE_ENV=production bun build.ts",
+    "dev": "NODE_ENV=development bun build.ts",
+    "lint": "bun run lint:fmt &&  bun run lint:css && bun run lint:js && bun run lint:ts",
+    "lint:css": "stylelint '**/*.{css,xcss}'",
+    "lint:fmt": "biome check --diagnostic-level=warn",
+    "lint:js": "eslint",
+    "lint:ts": "tsc --noEmit",
     "prebuild": "rm -rf dist; cp -r static dist",
-    "test": "c8 --all --include=src --reporter=text --reporter=lcovonly uvu -r tsm test '\\.test\\.ts$'",
-    "test-e2e": "node -r tsm test/e2e/index.ts",
-    "zip": "sh -c 'test -z \"$(git status --porcelain)\"' && pnpm run lint && pnpm run test && pnpm run build && cd dist && zip ../chrome-extension.zip *",
-    "zip-ff": "export FIREFOX_BUILD=1 && pnpm run zip && mv chrome-extension.zip firefox-extension.zip"
+    "test": "bun test --preload ./test/setup.ts test/unit --coverage",
+    "test:e2e": "TZ=UTC playwright test test/e2e/*.spec.ts",
+    "test:e2e:debug": "bun run test:e2e --debug",
+    "test:e2e:ui": "bun run test:e2e --ui",
+    "zip": "./zip.sh"
+  },
+  "overrides": {
+    "lightningcss": "1.23.0"
   },
   "dependencies": {
-    "@ekscss/framework": "0.0.43",
-    "stage1": "0.6.2",
-    "trackx": "0.6.0"
+    "@ekscss/framework": "0.0.48",
+    "stage1": "0.8.0-next.10",
+    "trackx": "0.6.1"
   },
   "devDependencies": {
-    "@maxmilton/stylelint-config": "0.0.12",
-    "@types/chrome": "0.0.232",
-    "@types/jsdom": "21.1.1",
-    "@types/node": "18.15.11",
-    "@typescript-eslint/eslint-plugin": "5.59.0",
-    "@typescript-eslint/parser": "5.59.0",
-    "c8": "7.13.0",
-    "ekscss": "0.0.13",
-    "esbuild": "0.17.17",
-    "esbuild-minify-templates": "0.10.0",
-    "esbuild-plugin-ekscss": "0.0.13",
-    "eslint": "8.38.0",
+    "@biomejs/biome": "1.8.3",
+    "@eslint/compat": "1.1.0",
+    "@eslint/eslintrc": "3.1.0",
+    "@eslint/js": "9.5.0",
+    "@maxmilton/stylelint-config": "0.0.15",
+    "@playwright/test": "1.45.0",
+    "@types/bun": "1.1.6",
+    "@types/chrome": "0.0.268",
+    "@types/csso": "5.0.4",
+    "@types/eslint__eslintrc": "2.1.1",
+    "@types/eslint__js": "8.42.3",
+    "csso": "5.0.5",
+    "ekscss": "0.0.17",
+    "eslint": "9.5.0",
     "eslint-config-airbnb-base": "15.0.0",
-    "eslint-config-airbnb-typescript": "17.0.0",
-    "eslint-plugin-import": "2.27.5",
-    "eslint-plugin-unicorn": "46.0.0",
-    "git-ref": "0.3.1",
-    "jsdom": "21.1.1",
-    "kleur": "4.1.5",
-    "lightningcss": "1.19.0",
-    "pirates": "4.0.5",
-    "playwright-chromium": "1.32.3",
-    "prettier": "2.8.7",
-    "prettier-plugin-pkg": "0.17.1",
-    "prettier-plugin-sh": "0.12.8",
-    "purgecss": "5.0.0",
-    "stylelint": "15.5.0",
-    "stylelint-config-standard": "33.0.0",
-    "tsm": "2.3.0",
-    "typescript": "4.9.5",
-    "uvu": "0.5.6"
-  },
-  "prettier": {
-    "arrowParens": "always",
-    "endOfLine": "lf",
-    "singleQuote": true,
-    "trailingComma": "all",
-    "plugins": [
-      "./node_modules/prettier-plugin-pkg",
-      "./node_modules/prettier-plugin-sh"
-    ]
-  },
-  "stylelint": {
-    "reportInvalidScopeDisables": true,
-    "reportNeedlessDisables": true,
-    "extends": [
-      "stylelint-config-standard",
-      "@maxmilton/stylelint-config"
-    ],
-    "ignoreFiles": [
-      "**/dist/**",
-      "**/node_modules/**",
-      "**/*.bak/**",
-      "**/*.bak"
-    ],
-    "rules": {
-      "import-notation": null,
-      "function-no-unknown": null
-    }
+    "eslint-config-airbnb-typescript": "18.0.0",
+    "eslint-plugin-import": "2.29.1",
+    "eslint-plugin-unicorn": "54.0.0",
+    "happy-dom": "14.12.3",
+    "lightningcss": "1.25.1",
+    "purgecss": "6.0.0",
+    "stylelint": "16.6.1",
+    "stylelint-config-standard": "36.0.1",
+    "terser": "5.31.1",
+    "typescript": "5.5.2",
+    "typescript-eslint": "7.14.1"
   }
 }

@@ -19,9 +19,10 @@ Although there are existing Chrome extensions with similar functionality, they e
 
 ### Technology
 
-- [ekscss](https://github.com/maxmilton/ekscss) style preprocessor
+- [Chrome browser APIs](https://developer.chrome.com/docs/extensions/reference/)
 - [stage1](https://github.com/maxmilton/stage1) JavaScript framework
-- [esbuild](https://esbuild.github.io/) JavaScript bundler
+- [ekscss](https://github.com/maxmilton/ekscss) style preprocessor
+- [bun](https://github.com/oven-sh/bun) JavaScript bundler and runtime
 
 ## Browser support
 
@@ -43,4 +44,4 @@ The [globe icon](https://github.com/twitter/twemoji/blob/master/assets/svg/1f310
 
 ---
 
-© 2022 [Max Milton](https://maxmilton.com)
+© 2023 [Max Milton](https://maxmilton.com)

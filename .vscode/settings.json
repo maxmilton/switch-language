@@ -1,44 +1,37 @@
 {
-  "css.validate": false,
+  "editor.formatOnPaste": false,
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "files.associations": {
-    "*.xcss": "scss"
-  },
-  "git.branchProtection": ["master"],
+  "editor.formatOnType": false,
+  "eslint.format.enable": false,
+  "eslint.useFlatConfig": true,
+  "git.branchProtection": ["master", "next"],
   "js/ts.implicitProjectConfig.checkJs": true,
-  "prettier.ignorePath": ".gitignore",
+  "prettier.enable": false, // use biome instead
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.format.enable": false,
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  "css.validate": false,
   "scss.validate": false,
   "stylelint.validate": ["css", "scss"],
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "[css]": {
-    "editor.formatOnSave": false,
-    "editor.codeActionsOnSave": [
-      "source.formatDocument",
-      "source.fixAll.stylelint"
-    ]
+  "files.associations": { "*.xcss": "scss" },
+
+  "[css][html][json][jsonc][markdown][scss][xml]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "quickfix.biome": "explicit"
+    },
+    "editor.defaultFormatter": "biomejs.biome"
   },
-  "[javascript]": {
-    "editor.formatOnSave": false,
-    "editor.codeActionsOnSave": [
-      "source.sortImports",
-      "source.formatDocument",
-      "source.fixAll.eslint"
-    ]
-  },
-  "[scss]": {
-    "editor.formatOnSave": false,
-    "editor.codeActionsOnSave": [
-      "source.formatDocument",
-      "source.fixAll.stylelint"
-    ]
-  },
-  "[typescript]": {
-    "editor.formatOnSave": false,
-    "editor.codeActionsOnSave": [
-      "source.sortImports",
-      "source.formatDocument",
-      "source.fixAll.eslint"
-    ]
+  "[javascript][typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.sortImports": "never",
+      "source.organizeImports": "never",
+      "source.organizeImports.biome": "explicit",
+      "source.fixAll": "never",
+      "source.fixAll.eslint": "never",
+      "quickfix.biome": "explicit"
+    },
+    "editor.defaultFormatter": "biomejs.biome"
   }
 }

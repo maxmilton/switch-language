@@ -1,63 +1,65 @@
-// import type { UserSettings } from './components/Switcher';
+import type { UserSettings } from './components/SwitchLanguage';
 
-// chrome.storage.local.get(null, (settings: UserSettings) => {
-//   const locale = settings.locale!;
-//   console.log('@@@@ CONTENT locale', locale);
+console.log('@@@@ CONTENT');
 
-//   // window.navigator.language = locale;
-//   // window.navigator.languages = [locale, locale.split('-')[0]];
+chrome.storage.local.get(null, (settings: UserSettings) => {
+  const locale = settings.locale!;
+  console.log('@@@@ CONTENT locale', locale);
 
-//   Object.defineProperties(window.navigator.__proto__, {
-//     language: {
-//       value: locale,
-//       // writable: false,
-//       enumerable: true,
-//     },
-//     languages: {
-//       value: [locale, locale.split('-')[0]],
-//       // writable: false,
-//       enumerable: true,
-//     },
-//   });
+  // window.navigator.language = locale;
+  // window.navigator.languages = [locale, locale.split('-')[0]];
 
-//   console.log('@@@@ CONTENT navigator.language', window.navigator.language);
-//   console.log('@@@@ CONTENT navigator.languages', window.navigator.languages);
-// });
+  Object.defineProperties(window.navigator.__proto__, {
+    language: {
+      value: locale,
+      // writable: false,
+      enumerable: true,
+    },
+    languages: {
+      value: [locale, locale.split('-')[0]],
+      // writable: false,
+      enumerable: true,
+    },
+  });
 
-// const port = chrome.runtime.connect('fhemonmbahmafphlmegeiplebakacbll');
+  console.log('@@@@ CONTENT navigator.language', window.navigator.language);
+  console.log('@@@@ CONTENT navigator.languages', window.navigator.languages);
+});
 
-// port.postMessage('locale1');
+const port = chrome.runtime.connect('hmadidjhmofagedbpjljhcmfgemfjlpb');
 
-// chrome.runtime.sendMessage(
-//   'fhemonmbahmafphlmegeiplebakacbll',
-//   'locale2',
-//   (response) => {
-//     console.log('@@@@ CONTENT message response', response);
-//   },
-// );
+port.postMessage('locale1');
 
-// const locale = globalThis.localStorage?.getItem('__locale__');
+chrome.runtime.sendMessage(
+  'hmadidjhmofagedbpjljhcmfgemfjlpb',
+  'locale2',
+  (response) => {
+    console.log('@@@@ CONTENT message response', response);
+  },
+);
 
-// console.log('@@@@ CONTENT locale', locale);
+const locale = globalThis.localStorage?.getItem('__locale__');
 
-// if (locale) {
-//   Object.defineProperties(window.navigator.__proto__, {
-//     language: {
-//       value: locale,
-//       enumerable: true,
-//     },
-//     languages: {
-//       value: [locale, locale.split('-')[0]],
-//       enumerable: true,
-//     },
-//   });
+console.log('@@@@ CONTENT locale', locale);
 
-//   console.log('@@@@ CONTENT navigator.language', window.navigator.language);
-//   console.log('@@@@ CONTENT navigator.languages', window.navigator.languages);
-// }
+if (locale) {
+  Object.defineProperties(window.navigator.__proto__, {
+    language: {
+      value: locale,
+      enumerable: true,
+    },
+    languages: {
+      value: [locale, locale.split('-')[0]],
+      enumerable: true,
+    },
+  });
+
+  console.log('@@@@ CONTENT navigator.language', window.navigator.language);
+  console.log('@@@@ CONTENT navigator.languages', window.navigator.languages);
+}
 
 // TODO: Also override the locale (for Intl API etc.)
 //  ↳ https://chromedevtools.github.io/devtools-protocol/tot/Emulation/#method-setLocaleOverride
 //  ↳ Might need to be in a seperate content script which has chrome extension API access
 
-export {};
+// export {};
