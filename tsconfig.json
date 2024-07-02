@@ -26,5 +26,6 @@
     "build.ts",
     "src",
     "test"
-  ]
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
