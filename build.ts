@@ -12,13 +12,6 @@ import xcssConfig from './xcss.config';
 const firefox = Bun.env.FIREFOX_BUILD;
 const mode = Bun.env.NODE_ENV;
 const dev = mode === 'development';
-const manifest = createManifest();
-const release = manifest.version_name ?? manifest.version;
-
-if (firefox) {
-  manifest.version_name = undefined;
-  manifest.key = undefined;
-}
 
 function makeHTML(jsPath: string, cssPath: string) {
   return `
@@ -33,8 +26,23 @@ function makeHTML(jsPath: string, cssPath: string) {
     .replaceAll(/\n\s*/g, '\n');
 }
 
+console.time('prebuild');
+await Bun.$`rm -rf dist`;
+await Bun.$`cp -r static dist`;
+console.timeEnd('prebuild');
+
 // Extension manifest
+console.time('manifest');
+const manifest = createManifest();
+const release = manifest.version_name ?? manifest.version;
+
+if (firefox) {
+  manifest.version_name = undefined;
+  manifest.key = undefined;
+}
+
 await Bun.write('dist/manifest.json', JSON.stringify(manifest));
+console.timeEnd('manifest');
 
 // Popup app HTML
 await Bun.write('dist/popup.html', makeHTML('popup.js', 'popup.css'));
