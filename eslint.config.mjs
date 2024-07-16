@@ -96,6 +96,13 @@ export default tseslint.config(
     },
   },
   {
+    files: ['build.ts'],
+    rules: {
+      'no-await-in-loop': OFF,
+      'no-console': OFF,
+    },
+  },
+  {
     ignores: ['*.bak', 'dist/**'],
   },
 );
