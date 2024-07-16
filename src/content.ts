@@ -60,6 +60,6 @@ if (locale) {
 
 // TODO: Also override the locale (for Intl API etc.)
 //  ↳ https://chromedevtools.github.io/devtools-protocol/tot/Emulation/#method-setLocaleOverride
-//  ↳ Might need to be in a seperate content script which has chrome extension API access
+//  ↳ Might need to be in a separate content script which has chrome extension API access
 
 // export {};
