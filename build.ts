@@ -1,7 +1,4 @@
-/* eslint-disable no-console */
-
-import type { BunPlugin } from 'bun';
-import * as csso from 'csso';
+import type { BuildArtifact, BunPlugin } from 'bun';
 import * as xcss from 'ekscss';
 import * as lightningcss from 'lightningcss';
 import { PurgeCSS } from 'purgecss';
@@ -12,40 +9,6 @@ import xcssConfig from './xcss.config';
 const firefox = Bun.env.FIREFOX_BUILD;
 const mode = Bun.env.NODE_ENV;
 const dev = mode === 'development';
-
-function makeHTML(jsPath: string, cssPath: string) {
-  return `
-    <!doctype html>
-    <meta charset=utf-8>
-    <meta name=google value=notranslate>
-    <link href=${cssPath} rel=stylesheet>
-    <script src=trackx.js defer></script>
-    <script src=${jsPath} type=module></script>
-  `
-    .trim()
-    .replaceAll(/\n\s*/g, '\n');
-}
-
-console.time('prebuild');
-await Bun.$`rm -rf dist`;
-await Bun.$`cp -r static dist`;
-console.timeEnd('prebuild');
-
-// Extension manifest
-console.time('manifest');
-const manifest = createManifest();
-const release = manifest.version_name ?? manifest.version;
-
-if (firefox) {
-  manifest.version_name = undefined;
-  manifest.key = undefined;
-}
-
-await Bun.write('dist/manifest.json', JSON.stringify(manifest));
-console.timeEnd('manifest');
-
-// Popup app HTML
-await Bun.write('dist/popup.html', makeHTML('popup.js', 'popup.css'));
 
 let css = '';
 
@@ -82,64 +45,21 @@ const extractCSS: BunPlugin = {
   },
 };
 
-// Popup app
-console.time('build');
-const out = await Bun.build({
-  entrypoints: ['src/popup.ts', 'src/content.ts'],
-  outdir: 'dist',
-  target: 'browser',
-  define: {
-    'process.env.APP_RELEASE': JSON.stringify(release),
-    'process.env.NODE_ENV': JSON.stringify(mode),
-  },
-  loader: {
-    '.svg': 'text',
-  },
-  // external: ['inter.woff2'],
-  plugins: [extractCSS],
-  minify: !dev,
-  sourcemap: dev ? 'external' : 'none',
-});
-console.timeEnd('build');
-console.log(out);
+function makeHTML(jsPath: string, cssPath: string) {
+  return `
+    <!doctype html>
+    <meta charset=utf-8>
+    <meta name=google value=notranslate>
+    <link href=${cssPath} rel=stylesheet>
+    <script src=health.js defer></script>
+    <script src=${jsPath} type=module></script>
+  `
+    .trim()
+    .replaceAll(/\n\s*/g, '\n');
+}
 
-// Background service worker
-console.time('build2');
-const out2 = await Bun.build({
-  entrypoints: ['src/sw.ts'],
-  outdir: 'dist',
-  target: 'browser',
-  define: {
-    'process.env.APP_RELEASE': JSON.stringify(release),
-    'process.env.NODE_ENV': JSON.stringify(mode),
-  },
-  minify: !dev,
-});
-console.timeEnd('build2');
-console.log(out2);
-
-// Error tracking
-console.time('build3');
-const out3 = await Bun.build({
-  entrypoints: ['src/trackx.ts'],
-  outdir: 'dist',
-  target: 'browser',
-  define: {
-    'process.env.APP_RELEASE': JSON.stringify(release),
-    'process.env.NODE_ENV': JSON.stringify(mode),
-  },
-  minify: !dev,
-});
-console.timeEnd('build3');
-console.log(out3);
-
-async function minifyCSS() {
-  if (dev) {
-    await Bun.write('dist/popup.css', css);
-    return;
-  }
-
-  const jsCode = await out.outputs[0].text();
+async function minifyCSS(artifact: BuildArtifact) {
+  const jsCode = await artifact.text();
   const purged = await new PurgeCSS().purge({
     content: [{ extension: '.js', raw: jsCode }],
     css: [{ raw: css }],
@@ -198,28 +118,10 @@ async function minifyCSS() {
     console.error('CSS:', warning.message);
   }
 
-  const minified2 = csso.minify(minified.code.toString(), {
-    filename: 'popup.css',
-    // usage: {
-    //   blacklist: {
-    //     classes: [
-    //       'button', // #apply mapped to 'button'
-    //       'disabled', // not actually used
-    //     ],
-    //   },
-    // },
-  });
-
-  await Bun.write('dist/popup.css', minified2.css);
+  await Bun.write('dist/popup.css', minified.code);
 }
 
-console.time('minifyCSS');
-await minifyCSS();
-console.timeEnd('minifyCSS');
-
-const nameCache = {};
-
-async function minifyJS(artifact: Blob & { path: string }) {
+async function minifyJS(artifact: BuildArtifact, nameCache: object) {
   let source = await artifact.text();
 
   // Improve joining vars; terser doesn't do this so we do it manually
@@ -232,24 +134,110 @@ async function minifyJS(artifact: Blob & { path: string }) {
     compress: {
       // Prevent functions being inlined
       reduce_funcs: false,
+      hoist_funs: true,
       // XXX: Comment out to keep performance markers in non-dev builds for debugging
       pure_funcs: ['performance.mark', 'performance.measure'],
+      passes: 2,
     },
     mangle: {
       properties: {
         regex: /^\$\$|^(__click)$/,
       },
     },
+    format: {
+      // Nice for debugging with no discernible difference in size or perf
+      semicolons: false,
+    },
   });
 
-  await Bun.write(artifact.path, result.code!);
+  await Bun.write(artifact.path, result.code ?? '');
 }
 
-if (!dev) {
-  console.time('minifyJS');
-  await minifyJS(out.outputs[0]);
-  await minifyJS(out.outputs[1]);
-  await minifyJS(out2.outputs[0]);
-  console.timeEnd('minifyJS');
-  console.log('@@ nameCache', nameCache);
+console.time('prebuild');
+await Bun.$`rm -rf dist`;
+await Bun.$`cp -r static dist`;
+console.timeEnd('prebuild');
+
+// Extension manifest
+console.time('manifest');
+const manifest = createManifest();
+const release = manifest.version_name ?? manifest.version;
+if (firefox) {
+  manifest.version_name = undefined;
+  manifest.key = undefined;
+}
+await Bun.write('dist/manifest.json', JSON.stringify(manifest));
+console.timeEnd('manifest');
+
+// Popup app HTML
+console.time('html');
+await Bun.write('dist/popup.html', makeHTML('popup.js', 'popup.css'));
+console.timeEnd('html');
+
+// Popup app
+console.time('build');
+const out = await Bun.build({
+  entrypoints: ['src/popup.ts', 'src/content.ts'],
+  outdir: 'dist',
+  target: 'browser',
+  define: {
+    'process.env.APP_RELEASE': JSON.stringify(release),
+    'process.env.NODE_ENV': JSON.stringify(mode),
+  },
+  loader: {
+    '.svg': 'text',
+  },
+  plugins: [extractCSS],
+  minify: !dev,
+  sourcemap: dev ? 'external' : 'none',
+});
+console.timeEnd('build');
+console.log(out);
+
+// Background service worker
+console.time('build2');
+const out2 = await Bun.build({
+  entrypoints: ['src/sw.ts'],
+  outdir: 'dist',
+  target: 'browser',
+  define: {
+    'process.env.APP_RELEASE': JSON.stringify(release),
+    'process.env.NODE_ENV': JSON.stringify(mode),
+  },
+  minify: !dev,
+});
+console.timeEnd('build2');
+console.log(out2);
+
+// Error tracking
+console.time('build3');
+const out3 = await Bun.build({
+  entrypoints: ['src/health.ts'],
+  outdir: 'dist',
+  target: 'browser',
+  define: {
+    'process.env.APP_RELEASE': JSON.stringify(release),
+    'process.env.NODE_ENV': JSON.stringify(mode),
+  },
+  minify: !dev,
+});
+console.timeEnd('build3');
+console.log(out3);
+
+if (dev) {
+  console.time('css');
+  await Bun.write('dist/popup.css', css);
+  console.timeEnd('css');
+} else {
+  console.time('minify:css');
+  await minifyCSS(out.outputs[0]);
+  console.timeEnd('minify:css');
+
+  console.time('minify:js');
+  const nameCache = {};
+  await minifyJS(out.outputs[0], nameCache);
+  await minifyJS(out.outputs[1], nameCache);
+  await minifyJS(out2.outputs[0], nameCache);
+  console.timeEnd('minify:js');
+  console.log('## nameCache', nameCache);
 }
