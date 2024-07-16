@@ -3,6 +3,7 @@
     "biomejs.biome",
     "oven.bun-vscode",
     "dbaeumer.vscode-eslint",
-    "stylelint.vscode-stylelint"
+    "stylelint.vscode-stylelint",
+    "tekumara.typos-vscode"
   ]
 }
